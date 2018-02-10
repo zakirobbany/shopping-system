@@ -13,8 +13,36 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                        <center>
+                            <div class="col-sm-6">
+                                <a href="{{url('/core')}}">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-body">Core</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{url('/inventory')}}">
+                                    <div class="panel panel-danger">
+                                        <div class="panel-body">Inventory</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{url('/billing')}}">
+                                    <div class="panel panel-success">
+                                        <div class="panel-body">Billing</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{url('/report')}}">
+                                    <div class="panel panel-info">
+                                        <div class="panel-body">Report</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </center>
                 </div>
             </div>
         </div>
