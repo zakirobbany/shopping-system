@@ -1,0 +1,37 @@
+/vendor
+/node_modules
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE Generated files #
+######################
+.idea/
+_ide_helper.php
+
+Gemfile
+Gemfile.lock
+Guardfile
+Guardfile.save
+yarn-error.log
+
+public/css/*
+public/fonts/*
+public/js/*
+
+public/mix-manifest.json
+.env.dusk.local
+.php_cs.cache
+storage/*.key
+*.sublime-*
