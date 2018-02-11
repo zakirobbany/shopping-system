@@ -8,4 +8,5 @@ Route::group(['middleware' => 'web', 'prefix' => 'core', 'namespace' => 'Modules
     Route::resource('/employee', 'EmployeeController');
     Route::resource('/supplier', 'SupplierController');
     Route::resource('/courier', 'CourierController');
+    Route::resource('/courier-type', 'CourierTypeController');
 });
