@@ -4,8 +4,10 @@ namespace Modules\Core\Http\Controllers;
 
 use App\Models\Core\Courier;
 use App\Models\Core\CourierType;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Core\Http\Requests\CourierRequest;
 
 class CourierController extends Controller
@@ -14,9 +16,14 @@ class CourierController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $couriers = Courier::paginate(10);
+        $couriers = Courier::select(DB::raw("id, name, address, phone_number, courier_type_id"));
+        if ($request->has('filter_name')) {
+            $couriers->where('name', 'like', '%' . $request->filter_name . '%');
+        }
+
+        $couriers = $couriers->paginate();
 
         return view('core::courier.index', compact('couriers'));
     }
