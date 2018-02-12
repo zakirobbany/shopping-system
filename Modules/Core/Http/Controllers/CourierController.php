@@ -2,9 +2,11 @@
 
 namespace Modules\Core\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Core\Courier;
+use App\Models\Core\CourierType;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Core\Http\Requests\CourierRequest;
 
 class CourierController extends Controller
 {
@@ -14,7 +16,9 @@ class CourierController extends Controller
      */
     public function index()
     {
-        return view('core::index');
+        $couriers = Courier::paginate(10);
+
+        return view('core::courier.index', compact('couriers'));
     }
 
     /**
@@ -23,16 +27,30 @@ class CourierController extends Controller
      */
     public function create()
     {
-        return view('core::create');
+        $courierTypes = CourierType::all();
+
+        return view('core::courier.create', compact('courierTypes'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     * @param CourierRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CourierRequest $request)
     {
+        $courier = new Courier();
+        $courier->fill([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+        ]);
+        $courier->courierType()->associate($request->courier_type_id);
+        $courier->save();
+
+        flash('Berhasil Menambahkan ' . $request->name)->success();
+
+        return redirect(route('courier.index'));
     }
 
     /**
@@ -48,18 +66,34 @@ class CourierController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('core::edit');
+        $courier = Courier::find($id);
+        $courierTypes = CourierType::all();
+
+        return view('core::courier.edit', compact('courierTypes', 'courier'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
+     * @param CourierRequest $request
+     * @param $id
      * @return Response
      */
-    public function update(Request $request)
+    public function update(CourierRequest $request, $id)
     {
+        $courier = Courier::find($id);
+        $courier->fill([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+        ]);
+        $courier->courierType()->associate($request->courier_type_id);
+        $courier->save();
+
+        flash('Berhasil memperbaharui ' . $request->name)->success();
+
+        return redirect(route('courier.index'));
     }
 
     /**
