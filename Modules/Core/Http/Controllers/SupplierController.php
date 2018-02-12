@@ -2,6 +2,7 @@
 
 namespace Modules\Core\Http\Controllers;
 
+use App\Models\Core\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,6 +15,8 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        $suppliers = Supplier::all();
+
         return view('core::index');
     }
 
