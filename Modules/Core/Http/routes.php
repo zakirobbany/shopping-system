@@ -14,6 +14,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'core', 'namespace' => 'Modules
     Route::get('/employee/{employee}/delete', 'EmployeeController@delete')->name('employee.delete');
 
     Route::resource('/supplier', 'SupplierController');
+    Route::post('/supplier/{supplier}/update', 'SupplierController@update')->name('supplier.update');
+    Route::get('/supplier/{supplier}/delete', 'SupplierController@destroy')->name('supplier.delete');
 
     /*
      * Courier Routes
