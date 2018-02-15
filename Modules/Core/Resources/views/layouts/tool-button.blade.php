@@ -19,6 +19,13 @@
                 </a>
             </li>
         @endif
+        @if(Route::getCurrentRoute()->uri == 'core/supplier')
+            <li>
+                <a href="{{ route('supplier.create') }}">
+                    <span class="fa fa-plus" ></span>&nbsp;Tambah Kurir
+                </a>
+            </li>
+        @endif
         <li>
             {{--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFilter">
                 Filter
