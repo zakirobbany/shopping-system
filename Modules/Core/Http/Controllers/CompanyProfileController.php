@@ -2,6 +2,7 @@
 
 namespace Modules\Core\Http\Controllers;
 
+use App\Models\Core\CompanyProfile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,7 +15,9 @@ class CompanyProfileController extends Controller
      */
     public function index()
     {
-        return view('core::index');
+        $companyProfile = CompanyProfile::first();
+
+        return view('core::company-profile.index', compact('companyProfile'));
     }
 
     /**
