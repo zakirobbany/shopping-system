@@ -26,6 +26,20 @@
                 </a>
             </li>
         @endif
+        @if(Route::getCurrentRoute()->uri == 'core/customer')
+            <li>
+                <a href="{{ route('customer.create') }}">
+                    <span class="fa fa-plus" ></span>&nbsp;Tambah Pelanggan
+                </a>
+            </li>
+        @endif
+        @if(Route::getCurrentRoute()->uri == 'core/courier-type')
+            <li>
+                <a href="{{ route('courier-type.create') }}">
+                    <span class="fa fa-plus" ></span>&nbsp;Tambah Jenis Kurir
+                </a>
+            </li>
+        @endif
         <li>
             {{--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modalFilter">
                 Filter

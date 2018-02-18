@@ -44,6 +44,7 @@
                     <li><a href="{{ route('supplier.index') }}">Sales</a></li>
                     <li><a href="{{ route('employee.index') }}">Karyawan</a></li>
                     <li><a href="{{ route('courier.index') }}">Kurir</a></li>
+                    <li><a href="{{ route('courier-type.index') }}">Jenis Kurir</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
