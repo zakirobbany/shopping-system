@@ -17,13 +17,17 @@ class ProductRequest extends FormRequest
             case 'POST' :
                 return [
                     'name' => 'required',
-                    'price' => 'required',
+                    'price' => 'required|numeric',
+                    'product_brand_id' => 'required',
+                    'product_type_id' => 'required',
                 ];
                 break;
             case 'PUT' :
                 return [
                     'name' => 'required',
-                    'price' => 'required',
+                    'price' => 'required|numeric',
+                    'product_brand_id' => 'required',
+                    'product_type_id' => 'required',
                 ];
                 break;
             default :
