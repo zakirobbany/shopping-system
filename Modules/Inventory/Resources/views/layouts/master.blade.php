@@ -40,7 +40,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/inventory') }}">Home</a></li>
                     <li><a href="{{ route('product.index') }}">Produk</a></li>
-                    <li><a href="{{ route('product-brand.index') }}">Brand Produk</a></li>
+                    <li><a href="{{ route('product-brand.index') }}">Merek Produk</a></li>
                     <li><a href="{{ route('product-type.index') }}">Jenis Produk</a></li>
                 </ul>
 
