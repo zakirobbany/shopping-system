@@ -22,7 +22,7 @@
                                         <th>Nama</th>
                                         <th>Merek</th>
                                         <th>Harga</th>
-                                        <th>Kuantitas</th>
+                                        <th>Stok</th>
                                         <th></th>
                                     </tr>
                                     @foreach($products as $product)
