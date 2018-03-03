@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
+                    @include('inventory::layouts.inventory-index-button')
                     <div class="panel-heading">Dashboard Inventori</div>
 
                     <div class="panel-body">
@@ -28,7 +29,7 @@
                                 <a href="{{ route('product-brand.index') }}">
                                     <div class="panel panel-danger">
                                         <div class="panel-body">
-                                            <div class="pull-left">Jumlah Brand</div>
+                                            <div class="pull-left">Jumlah Merek Terdaftar</div>
                                             <div class="pull-right">{{ \App\Models\Inventory\ProductBrand::all()->count() }}</div>
                                         </div>
                                     </div>
