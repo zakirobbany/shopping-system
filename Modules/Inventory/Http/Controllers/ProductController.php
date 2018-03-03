@@ -3,10 +3,13 @@
 namespace Modules\Inventory\Http\Controllers;
 
 use App\Models\Inventory\Product;
+use App\Models\Inventory\ProductBrand;
+use App\Models\Inventory\ProductType;
 use App\Services\ServicePaginator\ServicePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Inventory\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -40,16 +43,31 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('inventory::create');
+        $productBrands = ProductBrand::all();
+        $productTypes = ProductType::all();
+
+        return view('inventory::product.create', compact('productBrands', 'productTypes'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param  Request $request
+     * @param ProductRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
+        $product = new Product();
+        $product->fill([
+            'name' => $request->name,
+            'price' => $request->price,
+        ]);
+        $product->productBrand()->associate($request->product_brand_id);
+        $product->productType()->associate($request->product_type_id);
+        $product->save();
+
+        flash('Berhasil Menambahkan Produk ' . $request->name)->success();
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -63,27 +81,50 @@ class ProductController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param $id
      * @return Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('inventory::edit');
+        $product = Product::find($id);
+        $productBrands = ProductBrand::all();
+        $productTypes = ProductType::all();
+
+        return view('inventory::product.edit', compact('product',
+            'productTypes', 'productBrands'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  Request $request
+     * @param ProductRequest $request
+     * @param $id
      * @return Response
      */
-    public function update(Request $request)
+    public function update(ProductRequest $request, $id)
     {
+        $product = Product::find($id);
+        $product->fill([
+            'name' => $request->name,
+            'price' => $request->price,
+        ]);
+        $product->productBrand()->associate($request->product_brand_id);
+        $product->productType()->associate($request->product_type_id);
+        $product->save();
+
+        flash('Berhasil Memperbaharui Produk ' . $request->name)->success();
+
+        return redirect()->route('product.index');
     }
 
     /**
      * Remove the specified resource from storage.
-     * @return Response
+     * @return response
      */
-    public function destroy()
+    public function destroy($id)
     {
+        Product::find($id)->delete();
+        flash('Berhasil dihapus')->warning();
+
+        return redirect()->route('product.index');
     }
 }
