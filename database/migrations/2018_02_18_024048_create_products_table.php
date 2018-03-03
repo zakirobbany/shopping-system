@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->bigInteger('price');
-            $table->integer('quantity');
+            $table->integer('quantity')->default('1');
             $table->unsignedInteger('product_brand_id');
             $table->unsignedInteger('product_type_id');
             $table->softDeletes();
