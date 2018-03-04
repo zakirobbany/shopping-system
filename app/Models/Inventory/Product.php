@@ -11,6 +11,7 @@ class Product extends Model
     protected $fillable = [
         'name',
         'price',
+        'quantity',
         'created_at',
         'updated_at',
     ];
@@ -46,5 +47,10 @@ class Product extends Model
             return number_format($this->price) . ' / gram';
         }
         return number_format($this->price);
+    }
+
+    public function productStocks()
+    {
+        return $this->hasMany(ProductStock::class);
     }
 }
