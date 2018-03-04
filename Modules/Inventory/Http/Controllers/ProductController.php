@@ -4,12 +4,15 @@ namespace Modules\Inventory\Http\Controllers;
 
 use App\Models\Inventory\Product;
 use App\Models\Inventory\ProductBrand;
+use App\Models\Inventory\ProductStock;
 use App\Models\Inventory\ProductType;
+use App\Services\Inventory\ServiceAddQuantity;
 use App\Services\ServicePaginator\ServicePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Inventory\Http\Requests\ProductRequest;
+use Modules\Inventory\Http\Requests\ProductStockRequest;
 
 class ProductController extends Controller
 {
@@ -124,6 +127,38 @@ class ProductController extends Controller
     {
         Product::find($id)->delete();
         flash('Berhasil dihapus')->warning();
+
+        return redirect()->route('product.index');
+    }
+
+    /**
+     * Used to retrieve add stock blade view
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function addStock()
+    {
+        $products = Product::all();
+
+        return view('inventory::product.add-stock', compact('products'));
+    }
+
+    /**
+     * @param ProductStockRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeAddStock(ProductStockRequest $request)
+    {
+        $productStock = new ProductStock();
+        $serviceAddStock = new ServiceAddQuantity($request);
+        $serviceAddStock->addedStock();
+        $productStock->fill([
+            'quantity' => $request->quantity,
+        ]);
+        $productStock->user()->associate(auth()->user()->id);
+        $productStock->product()->associate($request->product_id);
+        $productStock->save();
+
+        flash('Stock Berhasil Ditambahkan')->success();
 
         return redirect()->route('product.index');
     }
