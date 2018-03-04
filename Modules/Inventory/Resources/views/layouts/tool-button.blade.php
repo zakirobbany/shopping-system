@@ -11,6 +11,11 @@
                     <span class="fa fa-plus" ></span>&nbsp;Tambah Produk
                 </a>
             </li>
+            <li>
+                <a href="{{ route('product.add-stock') }}">
+                    <span class="fa fa-plus" ></span>&nbsp;Tambah Stok Produk
+                </a>
+            </li>
         @endif
         @if(Route::getCurrentRoute()->uri == 'inventory/product-brand')
             <li>

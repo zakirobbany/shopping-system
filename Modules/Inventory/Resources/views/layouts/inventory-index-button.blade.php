@@ -15,5 +15,10 @@
                 <span class="fa fa-plus" ></span>&nbsp;Tambah Merk Produk
             </a>
         </li>
+        <li>
+            <a href="{{ route('product.add-stock') }}">
+                <span class="fa fa-plus" ></span>&nbsp;Tambah Stok Produk
+            </a>
+        </li>
     </ul>
 </div>
