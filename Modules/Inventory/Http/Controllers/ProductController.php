@@ -8,6 +8,7 @@ use App\Models\Inventory\ProductStock;
 use App\Models\Inventory\ProductType;
 use App\Services\Inventory\ServiceAddQuantity;
 use App\Services\ServicePaginator\ServicePaginator;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -148,11 +149,14 @@ class ProductController extends Controller
      */
     public function storeAddStock(ProductStockRequest $request)
     {
+        $now = Carbon::now();
+        $today = $now->toDateString();
         $productStock = new ProductStock();
         $serviceAddStock = new ServiceAddQuantity($request);
         $serviceAddStock->addedStock();
         $productStock->fill([
             'quantity' => $request->quantity,
+            'date' => $today,
         ]);
         $productStock->user()->associate(auth()->user()->id);
         $productStock->product()->associate($request->product_id);
