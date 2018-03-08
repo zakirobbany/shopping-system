@@ -2,6 +2,9 @@
 
 namespace Modules\Report\Http\Controllers;
 
+use App\Charts\AddStockChart;
+use App\Models\Inventory\ProductStock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,7 +17,24 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return view('report::index');
+        $now = Carbon::now();
+        $today = $now->toDateString();
+        $thisMonth = $now->format('m');
+        $addStockChart = new AddStockChart();
+        $productStocks = ProductStock::all();
+        $todayProductStocks = ProductStock::where('date', $today)
+            ->get();
+        $thisMonthProductStocks = ProductStock::whereMonth('date', $thisMonth )
+            ->get();
+
+        $arrayData = [];
+        foreach ($productStocks as $productStock) {
+            array_push($arrayData, $productStock->quantity);
+        }
+        $addStockChart->dataset('Add Stock', 'line', [100, 50, 240]);
+        return view('report::index', compact('addStockChart',
+            'todayProductStocks', 'thisMonthProductStocks'
+        ));
     }
 
     /**
