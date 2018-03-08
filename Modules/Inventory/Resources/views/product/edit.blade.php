@@ -18,7 +18,8 @@
 
                         <div class="form-group @if ($errors->has('price')) has-error @endif">
                             <label for="price" class="control-label col-sm-2">Harga</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-5 input-group">
+                                <div class="input-group-addon " style="padding-right: 10px">Rp</div>
                                 <input type="number" class="form-control" name="price" id="price" value="{{ $product->price }}">
                             </div>
                         </div>
