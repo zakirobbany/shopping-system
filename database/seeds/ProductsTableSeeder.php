@@ -18,17 +18,30 @@ class ProductsTableSeeder extends Seeder
         $products = [
             [
                 'name' => 'Semen Gresik',
-                'price' => 50000,
+                'modal_price' => 50000,
+                'sell_price' => 55000,
                 'quantity' => 500,
                 'brand' => 1,
                 'type' => 1,
+                'description' => '',
             ],
             [
                 'name' => 'Paku Payung',
-                'price' => 1000,
+                'modal_price' => 800,
+                'sell_price' => 1000,
                 'quantity' => 5000,
                 'brand' => 2,
                 'type' => 2,
+                'description' => '',
+            ],
+            [
+                'name' => 'Lampu Bulat',
+                'modal_price' => 33000,
+                'sell_price' => 35000,
+                'quantity' => 100,
+                'brand' => 3,
+                'type' => 1,
+                'description' => '30 watt',
             ],
         ];
 
@@ -37,10 +50,12 @@ class ProductsTableSeeder extends Seeder
         foreach ($products as $product) {
             DB::table('products')->insert([
                 'name' => $product['name'],
-                'price' => $product['price'],
+                'modal_price' => $product['modal_price'],
+                'sell_price' => $product['sell_price'],
                 'quantity' => $product['quantity'],
                 'product_type_id' => $product['type'],
                 'product_brand_id' => $product['brand'],
+                'description' => $product['description'],
                 'created_at' => $now,
                 'updated_at' => $now,
             ]);
