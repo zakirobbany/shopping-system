@@ -22,6 +22,9 @@ class ProductBrandsTableSeeder extends Seeder
             [
                 'name' => 'Blind Rivet',
             ],
+            [
+                'name' => 'Philips',
+            ],
         ];
 
         $now = \Carbon\Carbon::now();
