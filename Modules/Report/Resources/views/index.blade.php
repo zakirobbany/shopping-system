@@ -25,6 +25,10 @@
                                 <div class="panel panel-primary">
                                     <div class="panel-title" style="margin-top: 10px; color: #8c8c8c">
                                         PENAMBAHAN STOCK HARI INI
+                                        <span>
+                                            {{ __(\Carbon\Carbon::parse($todayProductStocks->first()->date)->format('l')) .
+                                            $todayProductStocks->first()->date }}
+                                        </span>
                                     </div>
                                     <div class="panel-body" style="color: #8c8c8c">
                                         <table class="table">
