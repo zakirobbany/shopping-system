@@ -17,14 +17,12 @@
                             <div class="col-sm-12">
                                 <div class="panel panel-primary">
                                     <div class="panel-body">
-                                        Penjualan Hari Ini
+                                        <div class="pull-left">Penjualan Hari Ini</div>
+                                        <div class="pull-right">127</div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="panel panel-primary">
                                     <div class="panel-body">
-                                        Penjualan Bulan Ini
+                                        <div class="pull-left">Penghasilan Hari Ini</div>
+                                        <div class="pull-right">Rp. 13.957.500</div>
                                     </div>
                                 </div>
                             </div>

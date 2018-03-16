@@ -39,7 +39,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/billing') }}">Home</a></li>
-                    <li><a href="{{ route('company-profile.index') }}">Pembelian</a></li>
+                    <li><a href="{{ route('payment.index') }}">Penjualan</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
