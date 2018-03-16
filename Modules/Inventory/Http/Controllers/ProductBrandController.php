@@ -28,8 +28,8 @@ class ProductBrandController extends Controller
         $option = [
             'path' => url('inventory/product-brand'),
         ];
-        $paginator = new ServicePaginator($productBrands, 10, $request->page, $option);
-        $productBrands = $paginator->paginate();
+        $paginator = new ServicePaginator(10, $request->page, $option);
+        $productBrands = $paginator->paginate($productBrands);
 
         return view('inventory::product-brand.index', compact('productBrands'));
     }
