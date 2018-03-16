@@ -8,23 +8,21 @@ use Illuminate\Support\Collection;
 
 class ServicePaginator
 {
-    private $items;
     private $perPage;
     private $pages;
     private $option;
 
-    public function __construct($items, $perPage, $pages, $option)
+    public function __construct($perPage, $pages, $option)
     {
-        $this->items = $items;
         $this->perPage = $perPage;
         $this->pages = $pages;
         $this->option = $option;
     }
 
-    public function paginate()
+    public function paginate($item)
     {
         $page = $this->pages ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $this->items instanceof Collection ? $this->items : Collection::make($this->items);
+        $items = $item instanceof Collection ? $item : Collection::make($item);
 
         return new LengthAwarePaginator(
             $items->forPage($page, $this->perPage),
