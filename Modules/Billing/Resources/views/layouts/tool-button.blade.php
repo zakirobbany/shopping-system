@@ -10,10 +10,12 @@
                 <span class="fa fa-plus-circle"></span>&nbsp; Penjualan Baru
             </a>
         </li>
-        <li>
-            <a role="button" data-toggle="modal" data-target="#modalFilter">
-                <span class="fa fa-search">&nbsp; Filter</span>
-            </a>
-        </li>
+        @if(Route::getCurrentRoute()->uri != 'billing')
+            <li>
+                <a role="button" data-toggle="modal" data-target="#modalFilter">
+                    <span class="fa fa-search">&nbsp; Filter</span>
+                </a>
+            </li>
+        @endif
     </ul>
 </div>
