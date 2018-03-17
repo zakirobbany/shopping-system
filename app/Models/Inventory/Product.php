@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory;
 
+use App\Models\Billing\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -52,5 +53,11 @@ class Product extends Model
     public function productStocks()
     {
         return $this->hasMany(ProductStock::class);
+    }
+
+    public function payments()
+    {
+        return $this->belongsToMany(Payment::class)
+            ->withPivot('quantity', 'discount', 'total_price');
     }
 }
