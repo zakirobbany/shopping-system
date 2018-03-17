@@ -2,6 +2,9 @@
 
 namespace Modules\Billing\Http\Controllers;
 
+use App\Models\Billing\Payment;
+use App\Models\Inventory\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -14,7 +17,15 @@ class BillingController extends Controller
      */
     public function index()
     {
-        return view('billing::index');
+        $now = Carbon::now();
+        $today = $now->toDateString();
+
+        $payments = Payment::where('date', $today)
+            ->get();
+        $countBilling = $payments->count();
+        $todayBilling = $payments->sum('total_payment');
+
+        return view('billing::index', compact('todayBilling', 'countBilling'));
     }
 
     /**

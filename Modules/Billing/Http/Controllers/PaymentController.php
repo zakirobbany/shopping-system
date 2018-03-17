@@ -3,7 +3,10 @@
 namespace Modules\Billing\Http\Controllers;
 
 use App\Models\Billing\Payment;
+use App\Models\Core\Customer;
+use App\Services\Inventory\ServiceInventoryQuantity;
 use App\Services\ServicePaginator\ServicePaginator;
+use App\Services\ServicePayments\ServicePayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -40,7 +43,10 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return view('billing::payment.create');
+        $customers = Customer::orderBy('name', 'asc')
+            ->get();
+
+        return view('billing::payment.create', compact('customers'));
     }
 
     /**
@@ -50,6 +56,24 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
+        $payment = new Payment();
+        $date = Carbon::now()->toDateString();
+        $payment->fill([
+            'date' => $date,
+            'total_payment' => $request->total_payment,
+        ]);
+        $payment->user()->associate(auth()->user());
+        $payment->customer()->associate($request->customer_name);
+        $payment->save();
+
+        $servicePayment = new ServicePayment($payment, $request);
+        $servicePayment->storePayment();
+        $serviceInventory = new ServiceInventoryQuantity($request);
+        $serviceInventory->subStock();
+
+        flash('pembayaran berhasil disimpan')->success();
+
+        return redirect()->route('payment.create');
     }
 
     /**
