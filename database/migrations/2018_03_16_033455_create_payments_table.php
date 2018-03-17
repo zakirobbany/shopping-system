@@ -15,15 +15,22 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('product_id');
             $table->unsignedInteger('customer_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->date('date');
-            $table->integer('quantity')->nullable();
-            $table->bigInteger('discount')->nullable();
-            $table->bigInteger('total_price');
+            $table->bigInteger('total_payment');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('customer_id')
+                ->references('id')
+                ->on('customers')
+                ->onUpdate('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade');
         });
     }
 
