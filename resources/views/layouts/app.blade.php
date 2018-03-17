@@ -7,6 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-param" content="_token">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -77,5 +78,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    {{--<script>
+        window.Laravel = {!! json_encode([
+           'csrfToken' => csrf_token(),
+       ]) !!};
+    </script>--}}
 </body>
 </html>
