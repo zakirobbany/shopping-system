@@ -11,7 +11,9 @@ class CustomersTableSeeder extends Seeder
      */
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
         DB::table('customers')->truncate();
+        Schema::enableForeignKeyConstraints();
 
         $customers = [
             [
