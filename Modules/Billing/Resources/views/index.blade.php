@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
+                    @include('billing::layouts.tool-button')
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
@@ -18,11 +19,11 @@
                                 <div class="panel panel-primary">
                                     <div class="panel-body">
                                         <div class="pull-left">Penjualan Hari Ini</div>
-                                        <div class="pull-right">127</div>
+                                        <div class="pull-right">{{ $countBilling }}</div>
                                     </div>
                                     <div class="panel-body">
                                         <div class="pull-left">Penghasilan Hari Ini</div>
-                                        <div class="pull-right">Rp. 13.957.500</div>
+                                        <div class="pull-right">Rp. {{ number_format($todayBilling) }}</div>
                                     </div>
                                 </div>
                             </div>
