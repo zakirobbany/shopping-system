@@ -6,7 +6,7 @@ use App\Models\Inventory\Product;
 use App\Models\Inventory\ProductBrand;
 use App\Models\Inventory\ProductStock;
 use App\Models\Inventory\ProductType;
-use App\Services\Inventory\ServiceAddQuantity;
+use App\Services\Inventory\ServiceInventoryQuantity;
 use App\Services\ServicePaginator\ServicePaginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -35,8 +35,8 @@ class ProductController extends Controller
         $option = [
             'path' => url('inventory/product'),
         ];
-        $paginator = new ServicePaginator($products, 10, $request->page, $option);
-        $products = $paginator->paginate();
+        $paginator = new ServicePaginator( 10, $request->page, $option);
+        $products = $paginator->paginate($products);
 
         return view('inventory::product.index', compact('products'));
     }
@@ -152,7 +152,7 @@ class ProductController extends Controller
         $now = Carbon::now();
         $today = $now->toDateString();
         $productStock = new ProductStock();
-        $serviceAddStock = new ServiceAddQuantity($request);
+        $serviceAddStock = new ServiceInventoryQuantity($request);
         $serviceAddStock->addedStock();
         $productStock->fill([
             'quantity' => $request->quantity,
