@@ -20,16 +20,20 @@
                                 <table class="table">
                                     <tr>
                                         <th>Nama</th>
+                                        <th>Keterangan</th>
                                         <th>Merek</th>
-                                        <th>Harga</th>
+                                        <th>Harga Beli</th>
+                                        <th>Harga Jual</th>
                                         <th>Stok</th>
                                         <th></th>
                                     </tr>
                                     @foreach($products as $product)
                                         <tr>
                                             <td>{{ $product->name }}</td>
+                                            <td>{{ $product->description }}</td>
                                             <td>{{ $product->productBrand->name }}</td>
-                                            <td>Rp {{ $product->price_currency }}</td>
+                                            <td>Rp {{ $product->modal_price_currency }}</td>
+                                            <td>Rp {{ $product->sell_price_currency }}</td>
                                             <td>{{ $product->quantity_type }}</td>
                                             <td>
                                                 <div class="pull-right">

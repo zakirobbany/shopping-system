@@ -11,7 +11,9 @@ class Product extends Model
     use SoftDeletes;
     protected $fillable = [
         'name',
-        'price',
+        'sell_price',
+        'modal_price',
+        'description',
         'quantity',
         'created_at',
         'updated_at',
@@ -39,15 +41,26 @@ class Product extends Model
         return $this->quantity;
     }
 
-    public function getPriceCurrencyAttribute()
+    public function getSellPriceCurrencyAttribute()
     {
         if ($this->productType->id == 1) {
-            return number_format($this->price) . ' / biji';
+            return number_format($this->sell_price) . ' / biji';
         }
         if ($this->productType->id == 2) {
-            return number_format($this->price) . ' / gram';
+            return number_format($this->sell_price) . ' / gram';
         }
-        return number_format($this->price);
+        return number_format($this->sell_price);
+    }
+
+    public function getModalPriceCurrencyAttribute()
+    {
+        if ($this->productType->id == 1) {
+            return number_format($this->modal_price) . ' / biji';
+        }
+        if ($this->productType->id == 2) {
+            return number_format($this->modal_price) . ' / gram';
+        }
+        return number_format($this->modal_price);
     }
 
     public function productStocks()
