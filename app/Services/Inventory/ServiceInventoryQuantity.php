@@ -4,7 +4,7 @@ namespace App\Services\Inventory;
 
 use App\Models\Inventory\Product;
 
-class ServiceAddQuantity extends AbstractServiceInventory
+class ServiceInventoryQuantity extends AbstractServiceInventory
 {
     public function availableStock()
     {
@@ -24,6 +24,18 @@ class ServiceAddQuantity extends AbstractServiceInventory
             $product->save();
 
             return $productStock;
+        }
+    }
+
+    public function subStock()
+    {
+        foreach ($this->request->product_id as $key => $productId) {
+            if ($productId) {
+                $product = Product::find($productId);
+                $product->quantity = ($product->quantity - $this->request->quantity[$key]);
+
+                $product->save();
+            }
         }
     }
 }
