@@ -20,12 +20,20 @@ class BillingController extends Controller
         $now = Carbon::now();
         $today = $now->toDateString();
 
-        $payments = Payment::where('date', $today)
+        $todayPayments = Payment::where('date', $today)
             ->get();
-        $countBilling = $payments->count();
-        $todayBilling = $payments->sum('total_payment');
+        $monthlyPayments = Payment::whereYear('created_at', $now->year)
+            ->whereMonth('created_at', $now->month)
+            ->get();
 
-        return view('billing::index', compact('todayBilling', 'countBilling'));
+        $dailyCountBilling = $todayPayments->count();
+        $dailyBilling = $todayPayments->sum('total_payment');
+
+        $monthlyCountBilling = $monthlyPayments->count();
+        $monthlyBilling = $monthlyPayments->sum('total_payment');
+
+        return view('billing::index', compact('dailyCountBilling', 'dailyBilling',
+            'monthlyCountBilling', 'monthlyBilling'));
     }
 
     /**
