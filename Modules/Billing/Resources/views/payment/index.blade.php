@@ -69,7 +69,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="pull-right">
-                                                        <a type="button" href="{{ route('product-brand.edit', $payment->id) }}" class="btn btn-success ">
+                                                        <a type="button" href="{{ route('payment.edit', $payment->id) }}" class="btn btn-success ">
                                                             <i class="fa fa-pencil"></i> Ubah
                                                         </a>
                                                         <a href="{{ route('product-brand.delete', $payment->id) }}" data-method="delete"
