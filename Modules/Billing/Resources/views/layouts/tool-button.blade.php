@@ -10,6 +10,16 @@
                 <span class="fa fa-plus-circle"></span>&nbsp; Penjualan Baru
             </a>
         </li>
+        <li>
+            <a href="{{ route('payment.index') }}">
+                <span class="fa fa-clipboard"></span>  Penjualan Hari Ini
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('payment.index', ['date' => \Carbon\Carbon::now()->toDateString()]) }}">
+                <span class="fa fa-clipboard"></span> Penjualan Bulan Ini
+            </a>
+        </li>
         @if(Route::getCurrentRoute()->uri != 'billing')
             <li>
                 <a role="button" data-toggle="modal" data-target="#modalFilter">
