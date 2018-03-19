@@ -4,6 +4,8 @@ namespace Modules\Billing\Http\Controllers;
 
 use App\Models\Billing\Payment;
 use App\Models\Core\Customer;
+use App\Models\Inventory\Product;
+use App\Services\DateRangePicker;
 use App\Services\Inventory\ServiceInventoryQuantity;
 use App\Services\ServicePaginator\ServicePaginator;
 use App\Services\ServicePayments\ServicePayment;
@@ -27,6 +29,15 @@ class PaymentController extends Controller
         $payments = Payment::where('date', $today)
             ->orderBy('created_at', 'desc')
             ->get();
+
+        if ($request->has('date')) {
+            $date = Carbon::parse($request->date);
+            $startDate = $date->firstOfMonth()->toDateString();
+            $endDate = $date->endOfMonth()->toDateString();
+
+            $dateRangePicker = new DateRangePicker($startDate, $endDate);
+            $payments = $dateRangePicker->payments();
+        }
 
         $option = [
             'path' => url('inventory/product-brand'),
@@ -89,9 +100,15 @@ class PaymentController extends Controller
      * Show the form for editing the specified resource.
      * @return Response
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('billing::edit');
+        $payment = Payment::with('products')
+            ->where('id', '=', $id)
+            ->first();
+        $selectedProducts = $payment->products;
+        $products = Product::all();
+
+        return view('billing::payment.edit', compact('payment', 'products', 'selectedProducts'));
     }
 
     /**
