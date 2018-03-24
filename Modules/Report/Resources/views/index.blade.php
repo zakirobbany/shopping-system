@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12 col-md-offset-0">
                 <div class="panel panel-default">
                     <div class="panel-heading">Dashboard</div>
 
@@ -14,20 +14,20 @@
                             </div>
                         @endif
                         <center>
-                            {{--<div class="col-sm-12">
+                            <div class="col-sm-12">
                                 <div class="panel panel-primary">
                                     <div class="panel-body">
-                                        {{ $addStockChart->container() }}
+                                        {!! $addStockChart->container() !!}
                                     </div>
                                 </div>
-                            </div>--}}
+                            </div>
                             <div class="col-sm-12">
                                 <div class="panel panel-primary">
                                     <div class="panel-title" style="margin-top: 10px; color: #8c8c8c">
                                         PENAMBAHAN STOCK HARI INI
                                         <span>
-                                            {{ __(\Carbon\Carbon::parse($todayProductStocks->first()->date)->format('l')) .
-                                            $todayProductStocks->first()->date }}
+                                            {{ trans('messages.' . $now->format('l')) . ' ' .
+                                            $now->toDateString() }}
                                         </span>
                                     </div>
                                     <div class="panel-body" style="color: #8c8c8c">
@@ -87,8 +87,7 @@
             </div>
         </div>
     </div>
-@stop
-{{--
-@section('script')
-    {{ $addStockChart->script() }}
-@endsection--}}
+@endsection
+@push('script')
+    {!! $addStockChart->script()  !!}
+@endpush
