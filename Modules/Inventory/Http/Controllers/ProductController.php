@@ -27,7 +27,7 @@ class ProductController extends Controller
         $products = Product::all();
         if ($request->has('filter')) {
             if ($request->has('filter_name')) {
-                $products = $products->filter(function ($product) use ($request){
+                $products = $products->filter(function ($product) use ($request) {
                     return mb_strpos($product->name, $request->name) === true;
                 });
             }
@@ -35,7 +35,7 @@ class ProductController extends Controller
         $option = [
             'path' => url('inventory/product'),
         ];
-        $paginator = new ServicePaginator( 10, $request->page, $option);
+        $paginator = new ServicePaginator(10, $request->page, $option);
         $products = $paginator->paginate($products);
 
         return view('inventory::product.index', compact('products'));
@@ -63,7 +63,9 @@ class ProductController extends Controller
         $product = new Product();
         $product->fill([
             'name' => $request->name,
-            'price' => $request->price,
+            'modal_price' => $request->modal_price,
+            'sell_price' => $request->sell_price,
+            'description' => $request->description,
         ]);
         $product->productBrand()->associate($request->product_brand_id);
         $product->productType()->associate($request->product_type_id);
