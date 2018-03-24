@@ -17,7 +17,8 @@ class ProductRequest extends FormRequest
             case 'POST' :
                 return [
                     'name' => 'required',
-                    'price' => 'required|numeric',
+                    'sell_price' => 'required|numeric',
+                    'modal_price' => 'required|numeric',
                     'product_brand_id' => 'required',
                     'product_type_id' => 'required',
                 ];
@@ -25,7 +26,8 @@ class ProductRequest extends FormRequest
             case 'PUT' :
                 return [
                     'name' => 'required',
-                    'price' => 'required|numeric',
+                    'sell_price' => 'required|numeric',
+                    'modal_price' => 'required|numeric',
                     'product_brand_id' => 'required',
                     'product_type_id' => 'required',
                 ];
