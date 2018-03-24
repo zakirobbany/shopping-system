@@ -33,7 +33,7 @@ class ReportController extends Controller
         }
         $addStockChart->dataset('Add Stock', 'line', [100, 50, 240]);
         return view('report::index', compact('addStockChart',
-            'todayProductStocks', 'thisMonthProductStocks'
+            'todayProductStocks', 'thisMonthProductStocks', 'now'
         ));
     }
 
