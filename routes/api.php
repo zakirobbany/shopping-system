@@ -24,5 +24,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/products', 'VueController@getProducts');
-Route::get('/products/{product}/price', 'VueController@getProductPrice');
-Route::get('/products/{product}/type', 'VueController@getProductType');
+Route::get('/customers', 'VueController@getCustomers');
