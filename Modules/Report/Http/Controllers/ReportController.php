@@ -3,7 +3,7 @@
 namespace Modules\Report\Http\Controllers;
 
 use App\Charts\AddStockChart;
-use App\Models\Inventory\ProductStock;
+use App\Services\Report\ServiceReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,6 +11,13 @@ use Illuminate\Routing\Controller;
 
 class ReportController extends Controller
 {
+    private $reports;
+
+    public function __construct()
+    {
+        $this->reports = new ServiceReport();
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -18,22 +25,18 @@ class ReportController extends Controller
     public function index()
     {
         $now = Carbon::now();
-        $today = $now->toDateString();
-        $thisMonth = $now->format('m');
         $addStockChart = new AddStockChart();
-        $productStocks = ProductStock::all();
-        $todayProductStocks = ProductStock::where('date', $today)
-            ->get();
-        $thisMonthProductStocks = ProductStock::whereMonth('date', $thisMonth )
-            ->get();
+        $todayProductStocks = $this->reports->todayProductStocks();
+        $thisMonthProductStocks = $this->reports->thisMonthProductStocks();
+        $todayPayments = $this->reports->todayPayments();
+        $thisMonthPayments = $this->reports->thisMonthPayments();
+        $todayProfit = $this->reports->todayProfit();
+        $thisMonthProfit = $this->reports->thisMonthProfit();
 
-        $arrayData = [];
-        foreach ($productStocks as $productStock) {
-            array_push($arrayData, $productStock->quantity);
-        }
         $addStockChart->dataset('Add Stock', 'line', [100, 50, 240]);
         return view('report::index', compact('addStockChart',
-            'todayProductStocks', 'thisMonthProductStocks', 'now'
+            'todayProductStocks', 'thisMonthProductStocks', 'now',
+            'todayPayments', 'thisMonthPayments', 'todayProfit', 'thisMonthProfit'
         ));
     }
 
