@@ -4,7 +4,7 @@ namespace App\Charts;
 
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
-class AddStockChart extends Chart
+class ReportChart extends Chart
 {
     /**
      * Initializes the chart.
@@ -14,5 +14,6 @@ class AddStockChart extends Chart
     public function __construct()
     {
         parent::__construct();
+
     }
 }
