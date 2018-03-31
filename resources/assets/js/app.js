@@ -16,7 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
-// Vue.component('payment-component', require('./components/Payment'));
+Vue.component('payment-component', require('./components/Payment'));
 Vue.component('modern-payment', require('./components/ModernPayment'));
 
 const app = new Vue({
