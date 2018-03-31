@@ -22,12 +22,14 @@ class ServiceReportChart
             ->orderBy('date', 'asc')
             ->get();
 
-        $payments = $payments->groupBy('date');
-        $totalPayments = $payments->map(function ($payment) {
-            return $payment->sum('total_payment');
-        });
+        if ($payments) {
+            $payments = $payments->groupBy('date');
+            $totalPayments = $payments->map(function ($payment) {
+                return $payment->sum('total_payment');
+            });
 
-        return $totalPayments;
+            return $totalPayments;
+        }
     }
 
     /**
@@ -38,8 +40,10 @@ class ServiceReportChart
     public function sellingDataSet()
     {
         $dataSets = collect();
-        foreach ($this->sells() as $sell) {
-            $dataSets->push($sell);
+        if ($this->sells()) {
+            foreach ($this->sells() as $sell) {
+                $dataSets->push($sell);
+            }
         }
 
         return $dataSets->toArray();
@@ -53,8 +57,10 @@ class ServiceReportChart
     public function sellingLabel()
     {
         $dataLabels = collect();
-        foreach ($this->sells() as $key => $sell) {
-            $dataLabels->push($key);
+        if ($this->sells()) {
+            foreach ($this->sells() as $key => $sell) {
+                $dataLabels->push($key);
+            }
         }
 
         return $dataLabels->toArray();
@@ -72,12 +78,14 @@ class ServiceReportChart
             ->orderBy('product_id')
             ->limit(10)
             ->get();
-        $stocks = $stocks->groupBy('product_id');
-        $stocks = $stocks->map(function ($stock) {
-           return $stock->sum('quantity');
-        });
+        if ($stocks) {
+            $stocks = $stocks->groupBy('product_id');
+            $stocks = $stocks->map(function ($stock) {
+                return $stock->sum('quantity');
+            });
 
-        return $stocks;
+            return $stocks;
+        }
     }
 
     /**
@@ -88,8 +96,10 @@ class ServiceReportChart
     public function stockDataSet()
     {
         $dataSets = collect();
-        foreach ($this->stocks() as $stock) {
-            $dataSets->push($stock);
+        if ($this->stocks()) {
+            foreach ($this->stocks() as $stock) {
+                $dataSets->push($stock);
+            }
         }
 
         return $dataSets->toArray();
@@ -103,9 +113,11 @@ class ServiceReportChart
     public function stockDataLabel()
     {
         $dataLabels = collect();
-        foreach ($this->stocks() as $key => $stock) {
-            $product = Product::find($key);
-            $dataLabels->push($product->name);
+        if ($this->stocks()) {
+            foreach ($this->stocks() as $key => $stock) {
+                $product = Product::find($key);
+                $dataLabels->push($product->name);
+            }
         }
 
         return $dataLabels->toArray();
@@ -115,13 +127,15 @@ class ServiceReportChart
     {
         $customerPayments = collect();
         $customers = Customer::with('payments')->limit(10)->get();
-        foreach ($customers as $customer) {
-            $thisMonthPayments = $customer->payments->filter(function ($payment) {
-                if (substr($payment->date, 5, 2) == Carbon::now()->month) {
-                    return $payment;
-                }
-            });
-            $customerPayments->push($thisMonthPayments);
+        if ($customers) {
+            foreach ($customers as $customer) {
+                $thisMonthPayments = $customer->payments->filter(function ($payment) {
+                    if (substr($payment->date, 5, 2) == Carbon::now()->month) {
+                        return $payment;
+                    }
+                });
+                $customerPayments->push($thisMonthPayments);
+            }
         }
 
         return $customerPayments;
@@ -130,8 +144,10 @@ class ServiceReportChart
     public function customerDataSet()
     {
         $dataSets = collect();
-        foreach ($this->customers() as $customer) {
-            $dataSets->push($customer->sum('total_payment'));
+        if ($this->customers()->isNotEmpty()) {
+            foreach ($this->customers() as $customer) {
+                $dataSets->push($customer->sum('total_payment'));
+            }
         }
 
         return $dataSets->toArray();
@@ -140,8 +156,12 @@ class ServiceReportChart
     public function customerDataLabel()
     {
         $dataLabels = collect();
-        foreach ($this->customers() as $customer) {
-            $dataLabels->push(Customer::find($customer->first()->customer_id)->name);
+        if ($this->customers()->isNotEmpty()) {
+            foreach ($this->customers() as $customer) {
+                if ($customer->isNotEmpty()) {
+                    $dataLabels->push(Customer::find($customer->first()->customer_id)->name);
+                }
+            }
         }
 
         return $dataLabels->toArray();
