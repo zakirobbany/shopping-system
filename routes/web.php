@@ -38,6 +38,6 @@ Route::get('today-profit', function () {
 Route::get('selling-data-set', function () {
    $sellingChart = new \App\Services\Report\ServiceReportChart();
 
-   return $sellingChart->stockDataSet();
+   return $sellingChart->customerDataLabel();
 });
 

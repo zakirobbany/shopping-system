@@ -15,13 +15,17 @@ class ReportController extends Controller
     private $reports;
     private $sellingChart;
     private $stockChart;
+    private $customerChart;
     private $serviceReportChart;
 
     public function __construct()
     {
         $this->reports = new ServiceReport();
+
         $this->sellingChart = new ReportChart();
         $this->stockChart = new ReportChart();
+        $this->customerChart = new ReportChart();
+
         $this->serviceReportChart = new ServiceReportChart();
     }
 
@@ -34,16 +38,21 @@ class ReportController extends Controller
         $now = Carbon::now();
         $sellingChart = $this->sellingChart;
         $stockChart = $this->stockChart;
+        $customerChart = $this->customerChart;
 
         $sellingChart->dataset('Penjualan', 'line', $this->serviceReportChart->sellingDataSet())
             ->options(['backgroundColor' => '#5179b3']);
         $sellingChart->labels($this->serviceReportChart->sellingLabel());
 
-        $stockChart->dataset('Penambahan Stock', 'pie', $this->serviceReportChart->stockDataSet())
+        $stockChart->dataset('Penambahan Stock', 'bar', $this->serviceReportChart->stockDataSet())
             ->options(['backgroundColor' => '#5179b3']);
         $stockChart->labels($this->serviceReportChart->stockDataLabel());
 
-        return view('report::index', compact('now','sellingChart', 'stockChart'));
+        $customerChart->dataset('Pembeli Terbanyak', 'bar', $this->serviceReportChart->customerDataSet())
+            ->options(['backgroundColor' => '#5179b3']);
+        $customerChart->labels($this->serviceReportChart->customerDataLabel());
+
+        return view('report::index', compact('now','sellingChart', 'stockChart', 'customerChart'));
     }
 
     /**

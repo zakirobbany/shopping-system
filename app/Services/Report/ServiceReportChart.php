@@ -3,6 +3,7 @@
 namespace App\Services\Report;
 
 use App\Models\Billing\Payment;
+use App\Models\Core\Customer;
 use App\Models\Inventory\Product;
 use App\Models\Inventory\ProductStock;
 use Carbon\Carbon;
@@ -59,11 +60,17 @@ class ServiceReportChart
         return $dataLabels->toArray();
     }
 
+    /**
+     * used to get monthly product stock
+     * grouped by product_id
+     * @return mixed
+     */
     public function stocks()
     {
         $thisMonth = Carbon::now()->month;
         $stocks = ProductStock::whereMonth('date', $thisMonth)
             ->orderBy('product_id')
+            ->limit(10)
             ->get();
         $stocks = $stocks->groupBy('product_id');
         $stocks = $stocks->map(function ($stock) {
@@ -73,6 +80,11 @@ class ServiceReportChart
         return $stocks;
     }
 
+    /**
+     * used to set data set
+     * of product stock chart
+     * @return array
+     */
     public function stockDataSet()
     {
         $dataSets = collect();
@@ -83,12 +95,53 @@ class ServiceReportChart
         return $dataSets->toArray();
     }
 
+    /**
+     * used to set labels
+     * of product stock chart
+     * @return array
+     */
     public function stockDataLabel()
     {
         $dataLabels = collect();
         foreach ($this->stocks() as $key => $stock) {
             $product = Product::find($key);
             $dataLabels->push($product->name);
+        }
+
+        return $dataLabels->toArray();
+    }
+
+    public function customers()
+    {
+        $customerPayments = collect();
+        $customers = Customer::with('payments')->limit(10)->get();
+        foreach ($customers as $customer) {
+            $thisMonthPayments = $customer->payments->filter(function ($payment) {
+                if (substr($payment->date, 5, 2) == Carbon::now()->month) {
+                    return $payment;
+                }
+            });
+            $customerPayments->push($thisMonthPayments);
+        }
+
+        return $customerPayments;
+    }
+
+    public function customerDataSet()
+    {
+        $dataSets = collect();
+        foreach ($this->customers() as $customer) {
+            $dataSets->push($customer->sum('total_payment'));
+        }
+
+        return $dataSets->toArray();
+    }
+
+    public function customerDataLabel()
+    {
+        $dataLabels = collect();
+        foreach ($this->customers() as $customer) {
+            $dataLabels->push(Customer::find($customer->first()->customer_id)->name);
         }
 
         return $dataLabels->toArray();

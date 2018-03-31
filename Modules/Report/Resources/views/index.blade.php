@@ -16,6 +16,7 @@
             <center>
               <div class="col-sm-12">
                 <div class="panel panel-primary">
+                  <div class="panel-heading">Penjualan</div>
                   <div class="panel-body">
                     {!! $sellingChart->container() !!}
                   </div>
@@ -24,8 +25,18 @@
 
               <div class="col-sm-12">
                 <div class="panel panel-primary">
+                  <div class="panel-heading">Penambahan Stock Barang</div>
                   <div class="panel-body">
                     {!! $stockChart->container() !!}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">Pembeli Terbanyak</div>
+                  <div class="panel-body">
+                    {!! $customerChart->container() !!}
                   </div>
                 </div>
               </div>
@@ -40,4 +51,5 @@
 @push('script')
   {!! $sellingChart->script()  !!}
   {!! $stockChart->script() !!}
+  {!! $customerChart->script() !!}
 @endpush
