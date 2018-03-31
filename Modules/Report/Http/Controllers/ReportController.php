@@ -2,8 +2,9 @@
 
 namespace Modules\Report\Http\Controllers;
 
-use App\Charts\AddStockChart;
+use App\Charts\ReportChart;
 use App\Services\Report\ServiceReport;
+use App\Services\Report\ServiceReportChart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,10 +13,16 @@ use Illuminate\Routing\Controller;
 class ReportController extends Controller
 {
     private $reports;
+    private $sellingChart;
+    private $stockChart;
+    private $serviceReportChart;
 
     public function __construct()
     {
         $this->reports = new ServiceReport();
+        $this->sellingChart = new ReportChart();
+        $this->stockChart = new ReportChart();
+        $this->serviceReportChart = new ServiceReportChart();
     }
 
     /**
@@ -25,19 +32,45 @@ class ReportController extends Controller
     public function index()
     {
         $now = Carbon::now();
-        $addStockChart = new AddStockChart();
+        $sellingChart = $this->sellingChart;
+        $stockChart = $this->stockChart;
+
+        $sellingChart->dataset('Penjualan', 'line', $this->serviceReportChart->sellingDataSet())
+            ->options(['backgroundColor' => '#5179b3']);
+        $sellingChart->labels($this->serviceReportChart->sellingLabel());
+
+        $stockChart->dataset('Penambahan Stock', 'pie', $this->serviceReportChart->stockDataSet())
+            ->options(['backgroundColor' => '#5179b3']);
+        $stockChart->labels($this->serviceReportChart->stockDataLabel());
+
+        return view('report::index', compact('now','sellingChart', 'stockChart'));
+    }
+
+    /**
+     * used to retrieve daily and monthly
+     * added stock report
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function stock()
+    {
+        $now = Carbon::now();
         $todayProductStocks = $this->reports->todayProductStocks();
         $thisMonthProductStocks = $this->reports->thisMonthProductStocks();
+
+        return view('report::stock.index', compact('now', 'todayProductStocks',
+            'thisMonthProductStocks'));
+    }
+
+    public function sell()
+    {
+        $now = Carbon::now();
         $todayPayments = $this->reports->todayPayments();
         $thisMonthPayments = $this->reports->thisMonthPayments();
         $todayProfit = $this->reports->todayProfit();
         $thisMonthProfit = $this->reports->thisMonthProfit();
 
-        $addStockChart->dataset('Add Stock', 'line', [100, 50, 240]);
-        return view('report::index', compact('addStockChart',
-            'todayProductStocks', 'thisMonthProductStocks', 'now',
-            'todayPayments', 'thisMonthPayments', 'todayProfit', 'thisMonthProfit'
-        ));
+        return view('report::sell.index', compact('now', 'todayPayments', 'thisMonthPayments',
+            'todayProfit', 'thisMonthProfit'));
     }
 
     /**
