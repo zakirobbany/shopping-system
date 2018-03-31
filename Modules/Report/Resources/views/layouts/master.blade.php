@@ -82,7 +82,7 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('chart.js/dist/chart.js') }}"></script>
+<script src="{{ asset('chart.js/dist/Chart.js') }}"></script>
 @stack('script')
 </body>
 </html>
